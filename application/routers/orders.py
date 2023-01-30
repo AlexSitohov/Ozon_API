@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import func as generic_function
 
 from JWT import get_current_user
-from business_logic import product_to_order
 from schemas import OrderCreate, OrderResponse
 import models
 from database_config import get_db
@@ -15,10 +15,12 @@ def create_order(order_data: OrderCreate, db: Session = Depends(get_db), current
     customer_id = current_user.get('user_id')
     customer = db.query(models.User).filter(models.User.id == customer_id).first()
 
-    products_and_sum_price = product_to_order(order_data.products_id, db)
+    products_summa = db.query(models.Product, generic_function.sum(models.Product.price).label('summa')).group_by(
+        models.Product.id).filter(
+        models.Product.id.in_(order_data.products_id)).all()
 
-    products = products_and_sum_price[0]
-    summa = products_and_sum_price[1]
+    summa = sum([i[1] for i in products_summa])
+    products = [i[0] for i in products_summa]
 
     if customer.balance < summa:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
