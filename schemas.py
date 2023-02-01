@@ -47,10 +47,30 @@ class UserResponse(BaseModel):
         orm_mode = True
 
 
+class UserResponsePartial(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True
+
+
 class ProductCreate(BaseModel):
     title: str
     price: float
     qty: int
+
+    class Config:
+        orm_mode = True
+
+
+class CommentsResponseProduct(BaseModel):
+    id: int
+    body: str
+
+    product_id: int
+
+    commentator: UserResponsePartial
 
     class Config:
         orm_mode = True
@@ -63,6 +83,7 @@ class ProductResponse(BaseModel):
     qty: int
     seller_id: int
     created_at: datetime
+    comments: list[CommentsResponseProduct]
 
     class Config:
         orm_mode = True
@@ -87,6 +108,27 @@ class OrderResponse(BaseModel):
 class OrderUpdate(BaseModel):
     id: int
     status: str
+
+    class Config:
+        orm_mode = True
+
+
+class CommentsCreate(BaseModel):
+    body: str
+    product_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class CommentsResponse(BaseModel):
+    id: int
+    body: str
+    created_at: datetime
+
+    product_id: int
+
+    commentator: UserResponsePartial
 
     class Config:
         orm_mode = True

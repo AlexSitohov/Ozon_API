@@ -24,6 +24,8 @@ class User(Base):
 
     products = relationship('Product', back_populates='seller')
 
+    comments = relationship('Comment', back_populates='commentator')
+
 
 class Product(Base):
     __tablename__ = "products"
@@ -40,6 +42,8 @@ class Product(Base):
     seller = relationship('User', back_populates='products')
 
     orders = relationship("Order", secondary="orders_products", back_populates="products")
+
+    comments = relationship('Comment', back_populates='product')
 
 
 class Order(Base):
@@ -60,3 +64,20 @@ orders_products = Table('orders_products', Base.metadata,
                         Column('order_id', ForeignKey('orders.id'), primary_key=True),
                         Column('product_id', ForeignKey('products.id'), primary_key=True)
                         )
+
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True)
+    body = Column(String(200), nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))
+
+    commentator_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+
+    product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'))
+
+    commentator = relationship('User', back_populates='comments')
+
+    product = relationship('Product', back_populates='comments')
