@@ -1,9 +1,9 @@
 FROM python:alpine
 
-WORKDIR /application
+WORKDIR /app
 
-COPY .. .
+COPY . .
 
-RUN pip install -r req.txt
+RUN pip install -r requirements.txt
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

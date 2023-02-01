@@ -32,7 +32,7 @@ class Product(Base):
     title = Column(String(50), nullable=False)
     price = Column(Float)
     qty = Column(Integer)
-    created_at = Column(TIMESTAMP(timezone=True,),
+    created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
 
     seller_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))

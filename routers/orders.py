@@ -18,6 +18,7 @@ def create_order(order_data: OrderCreate, db: Session = Depends(get_db), current
 
     new_order = models.Order(customer_id=customer_id, summa=result_dict.get("summa"),
                              products=result_dict.get("products"))
+    db.add(new_order)
     db.commit()
     db.refresh(new_order)
     return new_order
