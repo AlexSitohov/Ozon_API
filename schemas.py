@@ -55,6 +55,25 @@ class UserResponsePartial(BaseModel):
         orm_mode = True
 
 
+class ProfileResponse(UserResponse):
+    class Config:
+        orm_mode = True
+
+
+class ProfileUpdate(BaseModel):
+    username: str
+    first_name: str
+    last_name: str
+
+    class Config:
+        orm_mode = True
+
+
+class PasswordChange(BaseModel):
+    old_password: str
+    new_password: str
+
+
 class ProductCreate(BaseModel):
     title: str
     price: float
