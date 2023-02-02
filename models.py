@@ -1,6 +1,4 @@
-import uuid
-
-from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, Table, Float, TIMESTAMP
+from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, Table, Float, TIMESTAMP, CheckConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from database_config import Base
@@ -33,7 +31,7 @@ class Product(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(50), nullable=False)
     price = Column(Float)
-    qty = Column(Integer)
+    qty = Column(Integer, CheckConstraint('qty >= 0'))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
 

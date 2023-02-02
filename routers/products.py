@@ -27,7 +27,7 @@ def get_products_list(search: str = Query(default=None), skip: int = Query(defau
             products_list = db.query(models.Product).offset(skip).limit(limit).all()
         else:
 
-            products_list = db.query(models.Product).filter(models.Product.title.like(f'%{search}%')).offset(skip). \
+            products_list = db.query(models.Product).filter(models.Product.title.ilike(f'%{search}%')).offset(skip). \
                 limit(limit).all()
 
         return products_list

@@ -28,6 +28,7 @@ def create_order(order_data: OrderCreate, db: Session = Depends(get_db), current
 def get_list_of_my_orders(skip: int = Query(default=0), limit: int = Query(default=10), db: Session = Depends(get_db),
                           current_user=Depends(get_current_user)):
     customer_id = current_user.get('user_id')
-    list_of_my_orders = db.query(models.Order).filter(models.Order.customer_id == customer_id).offset(skip).limit(
+    list_of_my_orders = db.query(models.Order).filter(models.Order.customer_id == customer_id).order_by(
+        models.Order.id).offset(skip).limit(
         limit).all()
     return list_of_my_orders

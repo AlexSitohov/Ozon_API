@@ -29,9 +29,12 @@ def make_order_logic(customer_id, order_data, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f'не достаточно денег')
     # Обновляем количество у каждого товара.
-    db.query(models.Product).filter(
-        models.Product.id.in_(order_data.products_id)).update({models.Product.qty: models.Product.qty - 1},
-                                                              synchronize_session='evaluate')
+    try:
+        db.query(models.Product).filter(
+            models.Product.id.in_(order_data.products_id)).update({models.Product.qty: models.Product.qty - 1},
+                                                                  synchronize_session='evaluate')
+    except:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f'Invalid qty')
     # Снимаем деньги с баланса пользователя.
     customer.balance -= summa
 
