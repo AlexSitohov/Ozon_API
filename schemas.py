@@ -15,7 +15,7 @@ class UserCreate(BaseModel):
     last_name: str
     password: str
     email: str
-    phone: int
+    phone: str
     city: str
     balance: int = Field(gt=0, lt=1_000_000)
 
@@ -38,7 +38,7 @@ class UserResponse(BaseModel):
     last_name: str
     password: str
     email: str
-    phone: int
+    phone: str
     city: str
     created_at: datetime
     balance: int

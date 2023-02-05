@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, Table, Float, TIMESTAMP, CheckConstraint
+from sqlalchemy import Column, BigInteger, String, Integer, ForeignKey, Boolean, Table, Float, TIMESTAMP, \
+    CheckConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from database_config import Base
@@ -13,7 +14,7 @@ class User(Base):
     last_name = Column(String(50), nullable=False)
     password = Column(String)
     email = Column(String(30), unique=True)
-    phone = Column(Integer, unique=True)
+    phone = Column(String, unique=True)
     city = Column(String(30))
     balance = Column(Integer)
     created_at = Column(TIMESTAMP(timezone=True),
