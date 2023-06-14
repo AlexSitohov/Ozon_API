@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+  web:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
   db:
     container_name: "db"
     image: postgres
