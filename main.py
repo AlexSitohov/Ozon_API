@@ -10,6 +10,7 @@ from database_config import Base, engine
 from routers import users, authentication, products, orders, update_order_status, comments, profiles
 
 from fastapi.responses import HTMLResponse
+from config import HOST
 
 app = FastAPI()
 
@@ -42,7 +43,7 @@ html = """
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://%s/ws");
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')
@@ -53,7 +54,7 @@ html = """
         </script>
     </body>
 </html>
-"""
+""", HOST
 
 
 @app.get("/")
