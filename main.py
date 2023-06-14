@@ -43,7 +43,7 @@ html = """
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("ws://%s/ws");
+            var ws = new WebSocket("ws://62.113.102.58/ws");
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')
@@ -54,7 +54,7 @@ html = """
         </script>
     </body>
 </html>
-""", HOST
+"""
 
 
 @app.get("/")
